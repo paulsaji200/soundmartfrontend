@@ -1,5 +1,5 @@
 
-import Otpcom from '../../components/user/otpcom'
+import Otpcom from '../../components/user/Otpcom.jsx'
 const Verify = () => {
   return (
     <div>
