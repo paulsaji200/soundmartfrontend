@@ -3,13 +3,13 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "scripts": {
-    "dev": "vite",
-  "build": "vite build",
-
-    "lint": "eslint .",
-    "preview": "vite preview"
-  },
+ "scripts": {
+  "dev": "vite",
+  "build": "npm install --legacy-peer-deps && vite build",
+  "lint": "eslint .",
+  "preview": "vite preview"
+}
+,
   "dependencies": {
     "@cloudinary/react": "^1.13.0",
     "@cloudinary/url-gen": "^1.20.0",
