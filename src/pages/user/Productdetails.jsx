@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import ReactImageMagnify from "react-image-magnify";
 import api from "../../utils/axios";
 import { FaHeart } from "react-icons/fa";
 import { AiOutlineShoppingCart } from "react-icons/ai";
@@ -53,27 +52,20 @@ const ProductDetailPage = () => {
     }
   };
 
-  
   const toggleWishlist = async (event, productId) => {
     event.stopPropagation();
-  
+
     try {
-      // Send the request with `withCredentials: true` to ensure cookies (including token) are sent
-      setIsInWishlist(true)
+      setIsInWishlist(true);
       const response = await api.post(
-        `/user/addtowishlist/${productId}`, 
-        {}, // No body needed
+        `/user/addtowishlist/${productId}`,
+        {},
         {
-          withCredentials: true,  // Ensure credentials (cookies) are sent
+          withCredentials: true,
         }
       );
-  
-     
-     
-  
     } catch (error) {
-      console.error('Error adding to wishlist:', error);
-      // Handle any errors (e.g., token missing, expired, etc.)
+      console.error("Error adding to wishlist:", error);
     }
   };
 
@@ -81,31 +73,6 @@ const ProductDetailPage = () => {
     return <div>Loading...</div>;
   }
 
-  const magnifyProps = {
-    smallImage: {
-      alt: product.productName,
-      isFluidWidth: true,
-      src: selectedImage,
-    },
-    largeImage: {
-      src: selectedImage,
-      width: 1600,
-      height: 2400,
-    },
-    enlargedImageContainerStyle: {
-      zIndex: 9999,
-    },
-    enlargedImagePosition: "beside",
-    enlargedImageContainerDimensions: {
-      width: "200%",
-      height: "100%",
-    },
-    isHintEnabled: true,
-    shouldHideHintAfterFirstActivation: false,
-    hintTextMouse: "Hover to zoom",
-    imageClassName: "w-full h-auto",
-  };
-  
   return (
     <div className="container mx-auto p-6">
       <nav className="text-sm text-gray-500 mb-4">
@@ -145,9 +112,7 @@ const ProductDetailPage = () => {
           </div>
 
           <div className="relative flex-1" style={{ maxWidth: "500px" }}>
-            <div style={{ width: '100%', position: 'relative' }}>
-              <ReactImageMagnify {...magnifyProps} />
-            </div>
+            <img src={selectedImage} alt={product.productName} className="w-full h-auto rounded-lg" />
           </div>
         </div>
 
@@ -198,15 +163,14 @@ const ProductDetailPage = () => {
           </div>
 
           <div className="text-red-500 font-semibold mb-4">
-  {product.salePrice && product.productPrice && (
-    <p>
-      Special Offer: Save ₹
-      {Math.round(product.productPrice - product.salePrice)} (
-      {Math.round(((product.productPrice - product.salePrice) / product.productPrice) * 100)}% off)
-    </p>
-  )}
-</div>
-
+            {product.salePrice && product.productPrice && (
+              <p>
+                Special Offer: Save ₹
+                {Math.round(product.productPrice - product.salePrice)} (
+                {Math.round(((product.productPrice - product.salePrice) / product.productPrice) * 100)}% off)
+              </p>
+            )}
+          </div>
 
           <div className="mb-4">
             <h3 className="font-semibold text-lg mb-2">Product Description</h3>
@@ -242,7 +206,7 @@ const ProductDetailPage = () => {
               <AiOutlineShoppingCart className="mr-2" /> {isInCart ? "Added to Cart" : "Add to Cart"}
             </button>
             <button
-              onClick={(e) => toggleWishlist(e, product._id)} 
+              onClick={(e) => toggleWishlist(e, product._id)}
               className={`flex items-center py-2 px-4 rounded-lg ${
                 isInWishlist ? "bg-red-500 text-white" : "bg-gray-200 text-gray-700"
               } hover:bg-gray-300`}
