@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "npm install --legacy-peer-deps && vercel build",
+    "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
@@ -23,7 +23,7 @@
     "@reduxjs/toolkit": "^2.2.7",
     "axios": "^1.7.4",
     "cropperjs": "^1.6.2",
-    "date-fns": "^2.25.0",
+    "date-fns": "^3.6.0",
     "dotenv": "^16.4.5",
     "js-cookie": "^3.0.5",
     "jspdf": "^2.5.2",
