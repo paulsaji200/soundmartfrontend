@@ -72,10 +72,10 @@ const Logincomp = () => {
     try {
       // Make the API call to the login endpoint
       const response = await api.post("/user/login", loginData, {
-        withCredentials: true, // Ensure cookies are handled correctly
+        withCredentials: true, 
       });
   
-      // Check if the login was successful
+      
       if (response.status === 200) {
         setLoginStatus({ success: true, message: "Login successful!" });
         

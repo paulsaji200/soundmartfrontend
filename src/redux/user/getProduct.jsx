@@ -14,7 +14,9 @@ export const fetchAllProducts = createAsyncThunk('products/fetchAll', async ({ s
   
   console.log(search,filters)
   const response = await api.get('/user/getproduct', {
-    params: { search, ...filters }, // Send search and filters as query parameters
+
+    params: { search, ...filters },
+    withCredentials:true // Send search and filters as query parameters
   });
   return response.data.data; // Ensure this is what you want to return
 });

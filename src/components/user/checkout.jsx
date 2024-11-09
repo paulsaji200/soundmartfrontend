@@ -188,7 +188,7 @@ const CheckoutPage = () => {
             const razorpay_payment_id = response.razorpay_payment_id;
   
             
-            const paymentVerification = await axios.post('http://localhost:5000/verify-payment', {
+            const paymentVerification = await axios.post('https://soundmart.life/verify-payment', {
               razorpay_payment_id: razorpay_payment_id,
               amount: order.totalPrice*100,
               orderId: order._id

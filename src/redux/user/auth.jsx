@@ -9,7 +9,17 @@ const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
+
         setUser: (state, action) => {
+
+           
+document.cookie.split(';').forEach((cookie) => {
+    if (cookie.includes('token=undefined')) {
+        console.log('Deleting undefined token...');
+        document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.yourdomain.com;";
+    }
+});
+
             // Check if payload is null
             if (action.payload) {
                 state.user = action.payload;
