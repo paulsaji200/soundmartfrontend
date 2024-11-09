@@ -162,7 +162,7 @@ const Addproductcomp = () => {
         images: uploadedImages,
       };
           console.log(finalProductData)
-      await axios.post("http://localhost:5000/api/admin/addproduct", finalProductData);
+      await api.post("/admin/addproduct", finalProductData);
 
       setSuccessMessage('Product successfully added!');
       setProductData({
