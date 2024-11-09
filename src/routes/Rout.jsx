@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate } from "react-router-dom";
+import { HashRouter as Router, Route, Routes } from "react-router-dom"; // Changed to HashRouter
 import App from "../App";
 import Registerpage from "../pages/user/Registerpage";
 import Homepage from "../pages/user/Homepage";
@@ -12,14 +12,14 @@ import Verify from "../pages/user/Verify";
 import EditProductPage from "../pages/admin/Editproduct";
 import ProductDetailPage from "../pages/user/Productdetails";
 import AdminLoginPage from "../pages/admin/AdminLogin";
-import AdminProtectedRoute from "../components/global/Protectedadmin router";
+import AdminProtectedRoute from "../components/global/Protectedadminrouter";
 import CustomerManagement from "../components/admin/CustomerManagement";
 
 import Userorders from "../components/user/Userorders";
-import Useroverview from "../components/user/Account view";
+import Useroverview from "../components/user/Accountview";
 import AddressManagement from "../components/user/Useraddress";
-import AddressForm from "../components/user/Addadress";
-import UserProtectedRoute from "../utils/userprotectedrout"; // Make sure the protected route logic is correct
+import AddressForm from "../components/user/Addaddress";
+import UserProtectedRoute from "../utils/userprotectedrout";
 import Userprofile from "../components/user/Userprofile";
 import Cart from "../redux/user/Cart";
 import ShoppingCart from "../components/user/Cart";
@@ -37,171 +37,60 @@ import BrandManagement from "../pages/admin/Brandmanagement";
 import AdminDashboard from "../pages/admin/Dashboardadm";
 import LandingPage from "../pages/user/Landing";
 import PublicRoute from "../components/global/loginprotect";
-const Router = createBrowserRouter([
-  {
-    path: "/",
-    element: <App />,
-    children: [
-      {
-        path: "",
-        element: <Homepage />,
-      },
-      {
-        path: "register",
-        element: <Registerpage />,
-      },
-      {
-        path: "verify",
-        element: <Verify />,
-      },
-      {
-        path: "productdetails/:productId",
-        element: <ProductDetailPage />,
-      },
-    ]
 
-   
+const Router = () => {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<App />}>
+          <Route index element={<Homepage />} />
+          <Route path="register" element={<Registerpage />} />
+          <Route path="verify" element={<Verify />} />
+          <Route path="productdetails/:productId" element={<ProductDetailPage />} />
+        </Route>
 
-  },
+        <Route path="/home" element={<Homepage />} />
+        <Route path="landingpage" element={<LandingPage />} />
 
-  {
-    path: "/home",
-    element: <Homepage />,
-  },{
-   path:"landingpage"
-   ,element:<LandingPage/>
+        <Route path="/login" element={<PublicRoute><Loginpage /></PublicRoute>} />
+        
+        {/* Protected Routes */}
+        <Route path="cart" element={<UserProtectedRoute><ShoppingCart /></UserProtectedRoute>} />
+        <Route path="wishlist" element={<UserProtectedRoute><WishlistPage /></UserProtectedRoute>} />
+        <Route path="forgetpassword" element={<EnterEmailComponent />} />
+        <Route path="reset-password" element={<EnterPasswordComponent />} />
+        <Route path="checkout" element={<UserProtectedRoute><CheckoutPage /></UserProtectedRoute>} />
 
-  },
+        {/* User Profile Routes */}
+        <Route path="userprofile" element={<UserProtectedRoute><Userprofile /></UserProtectedRoute>}>
+          <Route path="" element={<Useroverview />} />
+          <Route path="orders" element={<Userorders />} />
+          <Route path="address" element={<AddressManagement />} />
+          <Route path="addaddress" element={<Addaddresspage />} />
+          <Route path="wallet" element={<WalletPage />} />
+        </Route>
 
-  {
-    path: "/login",
-    element: (
-      <PublicRoute>
-        <Loginpage />
-      </PublicRoute>
-    ),
-  },{
-  path: "cart",
-    element: (
-      <UserProtectedRoute>
-        <ShoppingCart/>
-      </UserProtectedRoute>
-    )},{
-      path: "wishlist",
-        element: (
-          <UserProtectedRoute>
-            <WishlistPage/>
-          </UserProtectedRoute>
-        )},
-      {
-        path:"forgetpassword",
-        element:<EnterEmailComponent/>
-      },{
-        path:"reset-password/",
-        element:<EnterPasswordComponent/>
-      }, 
-    
-    
-    
-    {
-      path: "checkout",
-        element: (
-          <UserProtectedRoute>
-            <CheckoutPage/>
-          </UserProtectedRoute>
-        )},
-  // Protect user profile and its children routes
-  {
-    path: "userprofile",
-    element: (
-      <UserProtectedRoute>
-        <Userprofile />
-      </UserProtectedRoute>
-    ),
-    children: [
-      {
-        path: "",
-        element: <Useroverview />,
-      },
-      {
-        path: "orders",
-        element: <Userorders />,
-      },
-      {
-        path: "address",
-        element: <AddressManagement />,
-      },
-      {
-        path: "addaddress",
-        element: <Addaddresspage />,
-      }, {
-        path: "wallet",
-        element: <WalletPage />,
-      }
-    ],
-  },
-  
+        {/* Admin Routes */}
+        <Route path="admin" element={<AdminProtectedRoute><Admin /></AdminProtectedRoute>}>
+          <Route path="" element={<AdminDashboard />} />
+          <Route path="customers" element={<CustomerManagement />} />
+          <Route path="products" element={<ViewProducts />} />
+          <Route path="orders" element={<OrderManagement />} />
+          <Route path="edit-product/:productId" element={<EditProductPage />} />
+          <Route path="category" element={<Category />} />
+          <Route path="addproduct" element={<Addproduct />} />
+          <Route path="report" element={<SalesReport />} />
+          <Route path="addcoupon" element={<CouponManagement />} />
+          <Route path="vieworderdetails/:orderId" element={<AdminOrderDetails />} />
+          <Route path="brandmanagement" element={<BrandManagement />} />
+          <Route path="dashboard" element={<AdminDashboard />} />
+        </Route>
 
-  // Admin Routes with Protected Route
-  {
-    path: "admin",
-    element: (
-      <AdminProtectedRoute>
-        <Admin />
-      </AdminProtectedRoute>
-    ),
-    children: [{
-       path:"",
-       element:<AdminDashboard/>
-    },
-      {
-        path: "customers",
-        element: <CustomerManagement />,
-      },
-      {
-        path: "products",
-        element: <ViewProducts />,
-      },{
-        path: "orders",
-        element: <OrderManagement />,
-      },
-      {
-        path: "edit-product/:productId",
-        element: <EditProductPage />,
-      },
-      {
-        path: "category",
-        element: <Category />,
-      },
-      {
-        path: "addproduct",
-        element: <Addproduct />,
-      },{
-        path: "report",
-        element: <SalesReport/>,
-      },
-      {
-        path: "addcoupon",
-        element: <CouponManagement />,
-      },
-      {
-        path:"vieworderdetails/:orderId",
-        element:<AdminOrderDetails />
-      },{
-
-        path:"brandmanagement",
-        element:<BrandManagement/>
-      },{
-
-        path:"dashboard",
-        element:<AdminDashboard/>
-      }
-    ],
-  },
-  {
-    path: "admin/login",
-    element: <AdminLoginPage />,
-  },
-]);
+        {/* Admin Login */}
+        <Route path="admin/login" element={<AdminLoginPage />} />
+      </Routes>
+    </Router>
+  );
+};
 
 export default Router;
