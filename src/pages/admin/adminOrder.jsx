@@ -64,7 +64,7 @@ const AdminOrdersPage = () => {
         <tbody>
           {orders.map(order => (
             <tr key={order._id}>
-              <td>{order._id}</td>
+              <td>{order.order_ID}</td>
               <td>{order.user?.name} ({order.user?.email})</td>
               <td>${order.totalPrice}</td>
               <td>{order.orderStatus}</td>

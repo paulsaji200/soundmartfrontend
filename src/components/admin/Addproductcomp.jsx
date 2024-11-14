@@ -188,7 +188,7 @@ const Addproductcomp = () => {
       <h2 className="text-2xl font-bold mb-4">Add New Product</h2>
       {successMessage && <p className="text-green-500 mb-4">{successMessage}</p>}
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Input fields for product data */}
+        
         <div className="flex space-x-4">
           <div className="w-1/2">
             <label className="block text-gray-700">Product Name:</label>
