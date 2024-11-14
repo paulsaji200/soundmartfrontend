@@ -199,12 +199,16 @@ const ProductDetailPage = () => {
           </div>
 
           <div className="flex gap-4 mt-6">
-            <button
-              onClick={() => handleAddToCart(product)}
-              className="flex items-center bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
-            >
-              <AiOutlineShoppingCart className="mr-2" /> {isInCart ? "Added to Cart" : "Add to Cart"}
-            </button>
+          <button
+  onClick={() => handleAddToCart(product)}
+  className={`flex items-center py-2 px-4 rounded-lg ${
+    product.quantity > 0 ? "bg-blue-500 hover:bg-blue-600 text-white" : "bg-gray-400 text-gray-700 cursor-not-allowed"
+  }`}
+  disabled={product.quantity <= 0}
+>
+  <AiOutlineShoppingCart className="mr-2" /> {isInCart ? "Added to Cart" : "Add to Cart"}
+</button>
+
             <button
               onClick={(e) => toggleWishlist(e, product._id)}
               className={`flex items-center py-2 px-4 rounded-lg ${
