@@ -3,7 +3,7 @@ import { FaSearch, FaRegUser } from 'react-icons/fa';
 import { GrFavorite } from 'react-icons/gr';
 import { IoCartOutline } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
-import { AiOutlineMenu } from 'react-icons/ai'; // Import Hamburger Menu icon
+import { AiOutlineMenu } from 'react-icons/ai';
 import { fetchProducts } from '../../redux/user/getProduct';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCartAsync } from '../../redux/user/Cart';
@@ -22,6 +22,7 @@ const Nav = () => {
 
   const handleClearSearch = () => {
     setSearchQuery('');
+    dispatch(fetchProducts({ queryString: '' })); // Fetch all products on clearing the search
   };
 
   useEffect(() => {
@@ -35,7 +36,6 @@ const Nav = () => {
       navigate('/');
     } else {
       dispatch(fetchProducts({ queryString: `query=${searchQuery}` }));
-      setSearchQuery('');
       navigate('/');
     }
   };

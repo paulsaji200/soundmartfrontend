@@ -54,7 +54,7 @@ const SidebarFilter = () => {
     setSortOption(e.target.value);
   };
 
-  
+
   const resetFilters = () => {
     const defaultFilters = {
       price: null,
@@ -87,6 +87,7 @@ const SidebarFilter = () => {
   }, [filters, sortOption, dispatch]);
 
   return (
+    
     <div className="bg-white shadow-lg rounded-lg p-4 h-[90vh] overflow-y-auto sticky top-0">
       <h2 className="text-2xl font-bold mb-4">Filters</h2>
 
