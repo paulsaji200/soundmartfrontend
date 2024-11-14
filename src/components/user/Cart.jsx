@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { deleteCartAsync, getCartAsync, addQuantity } from '../../redux/user/Cart';
 import { useNavigate } from 'react-router-dom';
 import Nav from '../global/Nav';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ShoppingCart = () => {
   const navigate = useNavigate();
@@ -20,12 +22,15 @@ const ShoppingCart = () => {
       const result = await dispatch(addQuantity({ product_id, quantity })).unwrap();
       if (result && result.count !== undefined) {
         setErrorMessage(`Only ${result.count} left in stock.`);
+        toast.warn(`Only ${result.count} left in stock.`);
       } else {
         setErrorMessage('');
+        toast.success('Quantity updated successfully');
       }
     } catch (error) {
       console.error('Error updating quantity:', error);
       setErrorMessage('Something went wrong.');
+      toast.error('Failed to update quantity');
     }
   };
 
@@ -33,8 +38,10 @@ const ShoppingCart = () => {
   const handleDelete = async (productId) => {
     try {
       await dispatch(deleteCartAsync(productId)).unwrap();
+      toast.success('Item removed from cart');
     } catch (error) {
       console.error('Error deleting cart item:', error);
+      toast.error('Failed to remove item from cart');
     }
   };
 
@@ -52,10 +59,10 @@ const ShoppingCart = () => {
         }
         return acc;
       }, 0);
-  
+
       setSubtotal(calculatedSubtotal);
       setTotal(calculatedSubtotal);
-  
+
       const availableQuantities = {};
       cart.products.forEach((item) => {
         if (item.productId) {
@@ -65,7 +72,6 @@ const ShoppingCart = () => {
       setAvailable(availableQuantities);
     }
   }, [cart]);
-  
 
   if (status === 'loading') {
     return (
@@ -75,13 +81,11 @@ const ShoppingCart = () => {
     );
   }
 
-
   if (error) {
-    console.log(error)
+    console.log(error);
     return (
       <div className="flex flex-col items-center justify-center p-24">
         <Nav />
-       
         <h2 className="text-2xl font-bold mb-4">Your Cart is Empty error</h2>
         <p className="text-gray-600">Start adding items to your cart!</p>
       </div>
@@ -102,6 +106,7 @@ const ShoppingCart = () => {
   return (
     <div className="flex flex-col md:flex-row gap-8 p-24 max-w-6xl mx-auto">
       <Nav />
+      <ToastContainer />
       <div className="flex-grow">
         <h2 className="text-2xl font-bold mb-4">YOUR CART</h2>
         <p className="mb-4">Total {cartCount} Items In Your Cart</p>
