@@ -13,6 +13,7 @@ const SidebarFilter = () => {
     popularity: false,
     featured: false,
   });
+  const [sortOption, setSortOption] = useState('');
 
   const priceRanges = [
     { label: '$500 - $1499', min: 500, max: 1499 },
@@ -21,7 +22,7 @@ const SidebarFilter = () => {
     { label: '$5000+', min: 5000, max: Infinity },
   ];
 
-  const categories = [, 'headphones', 'earbuds', 'speaker'];
+  const categories = ['headphones', 'earbuds', 'speaker'];
   const brands = ['boat', 'Oppo', 'JBL', 'OnePlus'];
   const ratings = [1, 2, 3, 4, 5];
 
@@ -49,6 +50,11 @@ const SidebarFilter = () => {
     }));
   };
 
+  const handleSortChange = (e) => {
+    setSortOption(e.target.value);
+  };
+
+  
   const resetFilters = () => {
     const defaultFilters = {
       price: null,
@@ -61,9 +67,10 @@ const SidebarFilter = () => {
     };
 
     setFilters(defaultFilters);
+    setSortOption('');
     
     // Dispatch the reset filters
-    dispatch(fetchFilteredProducts(defaultFilters));
+    dispatch(fetchFilteredProducts({ ...defaultFilters, sort: '' }));
   };
 
   useEffect(() => {
@@ -72,14 +79,15 @@ const SidebarFilter = () => {
       price: filters.price ? JSON.stringify(filters.price) : null,
       category: filters.category.length > 0 ? filters.category : null,
       brand: filters.brand.length > 0 ? filters.brand : null,
+      sort: sortOption || null,
     };
 
-    console.log('Dispatching filters:', formattedFilters);
+    console.log('Dispatching filters and sort option:', formattedFilters);
     dispatch(fetchFilteredProducts(formattedFilters));
-  }, [filters, dispatch]);
+  }, [filters, sortOption, dispatch]);
 
   return (
-    <div className="bg-white  p-4bg-white shadow-lg rounded-lg p-4 h-[90vh] overflow-y-auto sticky top-0">
+    <div className="bg-white shadow-lg rounded-lg p-4 h-[90vh] overflow-y-auto sticky top-0">
       <h2 className="text-2xl font-bold mb-4">Filters</h2>
 
       {/* Price Range Filter */}
@@ -155,39 +163,20 @@ const SidebarFilter = () => {
         ))}
       </div>
 
-      {/* Other Filters */}
+      {/* Sorting Options */}
       <div className="mb-4">
-        <h3 className="font-semibold text-lg mb-2">Other Filters</h3>
-        <div className="flex items-center mb-1">
-          <input
-            type="checkbox"
-            id="newArrivals"
-            checked={filters.newArrivals}
-            onChange={() => handleSingleOptionChange('newArrivals', !filters.newArrivals)}
-            className="mr-2"
-          />
-          <label htmlFor="newArrivals">New Arrivals</label>
-        </div>
-        <div className="flex items-center mb-1">
-          <input
-            type="checkbox"
-            id="popularity"
-            checked={filters.popularity}
-            onChange={() => handleSingleOptionChange('popularity', !filters.popularity)}
-            className="mr-2"
-          />
-          <label htmlFor="popularity">Most Popular</label>
-        </div>
-        <div className="flex items-center mb-1">
-          <input
-            type="checkbox"
-            id="featured"
-            checked={filters.featured}
-            onChange={() => handleSingleOptionChange('featured', !filters.featured)}
-            className="mr-2"
-          />
-          <label htmlFor="featured">Featured</label>
-        </div>
+        <h3 className="font-semibold text-lg mb-2">Sort By</h3>
+        <select
+          value={sortOption}
+          onChange={handleSortChange}
+          className="w-full p-2 border border-gray-300 rounded"
+        >
+          <option value="">Select...</option>
+          <option value="nameAsc">Name: A to Z</option>
+          <option value="nameDesc">Name: Z to A</option>
+          <option value="priceLowHigh">Price: Low to High</option>
+          <option value="priceHighLow">Price: High to Low</option>
+        </select>
       </div>
 
       {/* Reset Filters Button */}
