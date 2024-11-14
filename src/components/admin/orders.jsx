@@ -112,9 +112,7 @@ const OrderManagement = () => {
               <th className="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                 Order ID
               </th>
-              <th className="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
-                User
-              </th>
+             
               <th className="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                 Total Price
               </th>
@@ -136,16 +134,9 @@ const OrderManagement = () => {
                 <tr key={order._id} className="hover:bg-gray-50">
                   <td className="py-2 px-4 border-b">{(currentPage - 1) * ordersPerPage + index + 1}</td>
                   <td className="px-5 py-5 border-b border-gray-200 text-sm">
-                    <p className="text-gray-900 whitespace-no-wrap">{order._id}</p>
+                    <p className="text-gray-900 whitespace-no-wrap">{order.order_ID}</p>
                   </td>
-                  <td className="px-5 py-5 border-b border-gray-200 text-sm">
-                    <div className="flex items-center">
-                      <BiUser className="text-gray-500 mr-2" />
-                      <p className="text-gray-900 whitespace-no-wrap">
-                        {order.user?.name} ({order.user?.email})
-                      </p>
-                    </div>
-                  </td>
+                
                   <td className="px-5 py-5 border-b border-gray-200 text-sm">
                     <div className="flex items-center">
                       <MdAttachMoney className="text-green-500 mr-1" />
