@@ -8,20 +8,21 @@ const ViewProducts = () => {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalProducts, setTotalProducts] = useState(0);
-  const productsPerPage = 10; // Set the number of products per page
+  const [searchQuery, setSearchQuery] = useState("");
+  const productsPerPage = 10;
   const navigate = useNavigate();
 
   const fetchProducts = useCallback(async () => {
     try {
       const response = await api.get("/admin/getproducts", {
-        params: { page: currentPage, limit: productsPerPage },
+        params: { page: currentPage, limit: productsPerPage, search: searchQuery },
       });
       setProducts(response?.data?.data);
-      setTotalProducts(response?.data?.totalProducts || 0); // Get the total number of products
+      setTotalProducts(response?.data?.totalProducts || 0);
     } catch (error) {
       console.error("Error fetching products:", error);
     }
-  }, [currentPage]);
+  }, [currentPage, searchQuery]);
 
   const editProduct = useCallback(
     (productId) => {
@@ -44,18 +45,21 @@ const ViewProducts = () => {
   }, [fetchProducts]);
 
   useEffect(() => {
-    fetchProducts(); // Fetch products whenever currentPage changes
+    fetchProducts();
   }, [fetchProducts]);
 
-  // Calculate total pages
   const totalPages = Math.ceil(totalProducts / productsPerPage);
 
-  // Handle page change
   const handlePageChange = (newPage) => {
     if (newPage > 0 && newPage <= totalPages) {
-      setCurrentPage(newPage); // Set the current page
-      fetchProducts(); // Fetch products for the new page
+      setCurrentPage(newPage);
+      fetchProducts();
     }
+  };
+
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+    setCurrentPage(1);
   };
 
   return (
@@ -69,6 +73,16 @@ const ViewProducts = () => {
           >
             Add Product
           </button>
+        </div>
+
+        <div className="py-4 px-6">
+          <input
+            type="text"
+            placeholder="Search products by name or category..."
+            value={searchQuery}
+            onChange={handleSearchChange}
+            className="border p-2 rounded w-full mb-4"
+          />
         </div>
 
         <div className="p-6">
@@ -126,7 +140,6 @@ const ViewProducts = () => {
             </tbody>
           </table>
 
-          {/* Pagination controls */}
           <div className="mt-4 flex justify-between items-center">
             <span className="text-sm text-gray-600">
               Page {currentPage} of {totalPages}
@@ -155,3 +168,4 @@ const ViewProducts = () => {
 };
 
 export default ViewProducts;
+                          

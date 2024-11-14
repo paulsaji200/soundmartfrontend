@@ -16,7 +16,7 @@ const ShoppingCart = () => {
   const [available, setAvailable] = useState({});
   const [errorMessage, setErrorMessage] = useState('');
 
-  // Handle quantity change
+  
   const handleQuantityChange = async (product_id, quantity) => {
     try {
       const result = await dispatch(addQuantity({ product_id, quantity })).unwrap();
