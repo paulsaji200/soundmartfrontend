@@ -8,8 +8,7 @@ const initialState = {
   error: null, // Error message
 };
 
-// Thunk to fetch all products initially
-// Redux Action
+
 export const fetchAllProducts = createAsyncThunk('products/fetchAll', async ({ search, filters }) => {
   
   console.log(search,filters)
