@@ -64,7 +64,7 @@ const Productcomp = () => {
 
   return (
     <div className="flex flex-col items-center">
-      {/* Product List */}
+      {/* Product Cards */}
       <div className="flex flex-wrap gap-4 justify-center">
         {loading ? (
           <div>Loading...</div>
@@ -87,7 +87,6 @@ const Productcomp = () => {
                 />
               </button>
 
-              {/* Product Image */}
               <img
                 className="w-full h-60 object-cover"
                 src={productItem.images[0] || 'https://via.placeholder.com/150'}
