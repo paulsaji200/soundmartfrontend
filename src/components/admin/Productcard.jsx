@@ -43,16 +43,16 @@ export const ProductCard = ({ product }) => {
     event.stopPropagation();
     
     try {
-      // Send the request with `withCredentials: true` to ensure cookies (including token) are sent
+      
       const response = await api.post(
         `/user/addtowishlist/${productId}`, 
-        {}, // No body needed
+        {}, 
         {
-          withCredentials: true,  // Ensure credentials (cookies) are sent
+          withCredentials: true,  
         }
       );
   
-      // Update the local state to reflect the change
+      
       setInWishlist((prevState) => ({
         ...prevState,
         [productId]: !prevState[productId],  // Toggle wishlist status

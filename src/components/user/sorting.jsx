@@ -13,7 +13,12 @@ const SidebarFilter = () => {
     popularity: false,
     featured: false,
   });
-  const [sortOption, setSortOption] = useState('');
+
+  // Individual state for each sort option
+  const [sortByNameAsc, setSortByNameAsc] = useState(false);
+  const [sortByNameDesc, setSortByNameDesc] = useState(false);
+  const [sortByPriceLowHigh, setSortByPriceLowHigh] = useState(false);
+  const [sortByPriceHighLow, setSortByPriceHighLow] = useState(false);
 
   const priceRanges = [
     { label: '$500 - $1499', min: 500, max: 1499 },
@@ -50,10 +55,12 @@ const SidebarFilter = () => {
     }));
   };
 
-  const handleSortChange = (e) => {
-    setSortOption(e.target.value);
+  const handleSortChange = (sortType) => {
+    setSortByNameAsc(sortType === 'nameAsc');
+    setSortByNameDesc(sortType === 'nameDesc');
+    setSortByPriceLowHigh(sortType === 'priceLowHigh');
+    setSortByPriceHighLow(sortType === 'priceHighLow');
   };
-
 
   const resetFilters = () => {
     const defaultFilters = {
@@ -67,9 +74,7 @@ const SidebarFilter = () => {
     };
 
     setFilters(defaultFilters);
-    setSortOption('');
-    
-    // Dispatch the reset filters
+    handleSortChange(''); 
     dispatch(fetchFilteredProducts({ ...defaultFilters, sort: '' }));
   };
 
@@ -79,15 +84,21 @@ const SidebarFilter = () => {
       price: filters.price ? JSON.stringify(filters.price) : null,
       category: filters.category.length > 0 ? filters.category : null,
       brand: filters.brand.length > 0 ? filters.brand : null,
-      sort: sortOption || null,
+      sort: sortByNameAsc
+        ? 'nameAsc'
+        : sortByNameDesc
+        ? 'nameDesc'
+        : sortByPriceLowHigh
+        ? 'priceLowHigh'
+        : sortByPriceHighLow
+        ? 'priceHighLow'
+        : null,
     };
 
-    console.log('Dispatching filters and sort option:', formattedFilters);
     dispatch(fetchFilteredProducts(formattedFilters));
-  }, [filters, sortOption, dispatch]);
+  }, [filters, sortByNameAsc, sortByNameDesc, sortByPriceLowHigh, sortByPriceHighLow, dispatch]);
 
   return (
-    
     <div className="bg-white shadow-lg rounded-lg p-4 h-[90vh] overflow-y-auto sticky top-0">
       <h2 className="text-2xl font-bold mb-4">Filters</h2>
 
@@ -168,8 +179,7 @@ const SidebarFilter = () => {
       <div className="mb-4">
         <h3 className="font-semibold text-lg mb-2">Sort By</h3>
         <select
-          value={sortOption}
-          onChange={handleSortChange}
+          onChange={(e) => handleSortChange(e.target.value)}
           className="w-full p-2 border border-gray-300 rounded"
         >
           <option value="">Select...</option>
@@ -181,8 +191,8 @@ const SidebarFilter = () => {
       </div>
 
       {/* Reset Filters Button */}
-      <button 
-        onClick={resetFilters} 
+      <button
+        onClick={resetFilters}
         className="mt-4 bg-red-500 text-white rounded py-2 px-4 hover:bg-red-600"
       >
         Reset Filters
