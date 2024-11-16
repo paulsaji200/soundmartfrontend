@@ -1,6 +1,8 @@
 import { useEffect, useState, useCallback } from "react";
 import { FaRegEdit } from "react-icons/fa";
 import { MdDelete, MdRestore } from "react-icons/md";
+import { ArrowBack, ArrowForward } from "@mui/icons-material";
+import { IconButton } from "@mui/material";
 import api from "../../utils/axios";
 import { useNavigate } from "react-router-dom";
 
@@ -176,24 +178,22 @@ const ViewProducts = () => {
               Page {currentPage} of {totalPages}
             </span>
             <div className="flex space-x-2">
-              <button
+              <IconButton
                 onClick={() => handlePageChange(currentPage - 1)}
-                className={`bg-gray-300 text-gray-700 px-3 py-2 rounded hover:bg-gray-400 ${
-                  currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""
-                }`}
                 disabled={currentPage === 1}
+                color="primary"
+                size="large"
               >
-                {"<"}
-              </button>
-              <button
+                <ArrowBack />
+              </IconButton>
+              <IconButton
                 onClick={() => handlePageChange(currentPage + 1)}
-                className={`bg-gray-300 text-gray-700 px-3 py-2 rounded hover:bg-gray-400 ${
-                  currentPage === totalPages ? "opacity-50 cursor-not-allowed" : ""
-                }`}
                 disabled={currentPage === totalPages}
+                color="primary"
+                size="large"
               >
-                {">"}
-              </button>
+                <ArrowForward />
+              </IconButton>
             </div>
           </div>
         </div>
