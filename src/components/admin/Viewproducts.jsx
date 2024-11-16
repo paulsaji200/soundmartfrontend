@@ -13,14 +13,19 @@ const ViewProducts = () => {
   const productsPerPage = 10;
   const navigate = useNavigate();
 
+
+  
+  // Split sortOption into sort field and order
   const fetchProducts = useCallback(async () => {
+    const [sort, order] = sortOption.split(/(?=[A-Z])/); // Splits "nameAsc" into ["name", "Asc"]
     try {
       const response = await api.get("/admin/getproducts", {
         params: {
           page: currentPage,
           limit: productsPerPage,
           search: searchQuery,
-          sort: sortOption,
+          sort: sort.toLowerCase(), // Convert to lowercase for MongoDB fields
+          order: order.toLowerCase(), // "Asc" or "Desc" -> "asc" or "desc"
         },
       });
       setProducts(response?.data?.data);
@@ -29,7 +34,7 @@ const ViewProducts = () => {
       console.error("Error fetching products:", error);
     }
   }, [currentPage, searchQuery, sortOption]);
-
+  
   const editProduct = useCallback(
     (productId) => {
       navigate(`/admin/edit-product/${productId}`);
@@ -71,10 +76,10 @@ const ViewProducts = () => {
   };
 
   const handleSortChange = (event) => {
-    setSortOption(event.target.value);
+    const selectedOption = event.target.value; // e.g., "productNameAsc"
+    setSortOption(selectedOption);
     setCurrentPage(1);
   };
-
   return (
     <div className="container mx-auto px-4">
       <div className="bg-white shadow-md rounded my-6">
