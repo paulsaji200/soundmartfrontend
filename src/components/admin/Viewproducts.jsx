@@ -9,7 +9,7 @@ const ViewProducts = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalProducts, setTotalProducts] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
-  const [sortOption, setSortOption] = useState({ field: "name", order: "asc" });
+  const [sortOption, setSortOption] = useState("createdAt-asc");
   const productsPerPage = 10;
   const navigate = useNavigate();
 
@@ -20,13 +20,11 @@ const ViewProducts = () => {
           page: currentPage,
           limit: productsPerPage,
           search: searchQuery,
-          sort: sortOption.field,
-          order: sortOption.order,
+          sort: sortOption,
         },
       });
       setProducts(response?.data?.data || []);
       setTotalProducts(response?.data?.totalProducts || 0);
-      console.log(response)
     } catch (error) {
       console.error("Error fetching products:", error);
     }
@@ -73,8 +71,7 @@ const ViewProducts = () => {
   };
 
   const handleSortChange = (event) => {
-    const [field, order] = event.target.value.split("-");
-    setSortOption({ field, order });
+    setSortOption(event.target.value);
     setCurrentPage(1);
   };
 
@@ -100,7 +97,7 @@ const ViewProducts = () => {
             className="border p-2 rounded w-full"
           />
           <select
-            value={`${sortOption.field}-${sortOption.order}`}
+            value={sortOption}
             onChange={handleSortChange}
             className="border p-2 rounded"
           >
@@ -108,6 +105,8 @@ const ViewProducts = () => {
             <option value="name-desc">Name (Z to A)</option>
             <option value="price-asc">Price (Low to High)</option>
             <option value="price-desc">Price (High to Low)</option>
+            <option value="createdAt-asc">Created At (Oldest First)</option>
+            <option value="createdAt-desc">Created At (Newest First)</option>
           </select>
         </div>
 
