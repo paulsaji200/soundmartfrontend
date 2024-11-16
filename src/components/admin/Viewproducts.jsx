@@ -24,8 +24,8 @@ const ViewProducts = () => {
           page: currentPage,
           limit: productsPerPage,
           search: searchQuery,
-          sort: sort.toLowerCase(), // Convert to lowercase for MongoDB fields
-          order: order.toLowerCase(), // "Asc" or "Desc" -> "asc" or "desc"
+          sort: sort.toLowerCase(), 
+          order: order.toLowerCase(), 
         },
       });
       setProducts(response?.data?.data);
@@ -76,8 +76,10 @@ const ViewProducts = () => {
   };
 
   const handleSortChange = (event) => {
-    const selectedOption = event.target.value; // e.g., "productNameAsc"
+    console.log("select")
+    const selectedOption = event.target.value; 
     setSortOption(selectedOption);
+    console.log(sortOption)
     setCurrentPage(1);
   };
   return (
