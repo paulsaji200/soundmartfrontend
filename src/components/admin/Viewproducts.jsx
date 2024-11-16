@@ -9,32 +9,28 @@ const ViewProducts = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalProducts, setTotalProducts] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
-  const [sortOption, setSortOption] = useState("nameAsc");
+  const [sortOption, setSortOption] = useState({ field: "name", order: "asc" });
   const productsPerPage = 10;
   const navigate = useNavigate();
 
-
-  
-  // Split sortOption into sort field and order
   const fetchProducts = useCallback(async () => {
-    const [sort, order] = sortOption.split(/(?=[A-Z])/); // Splits "nameAsc" into ["name", "Asc"]
     try {
       const response = await api.get("/admin/getproducts", {
         params: {
           page: currentPage,
           limit: productsPerPage,
           search: searchQuery,
-          sort: sort.toLowerCase(), 
-          order: order.toLowerCase(), 
+          sort: sortOption.field,
+          order: sortOption.order,
         },
       });
-      setProducts(response?.data?.data);
+      setProducts(response?.data?.data || []);
       setTotalProducts(response?.data?.totalProducts || 0);
     } catch (error) {
       console.error("Error fetching products:", error);
     }
-  }, [currentPage, searchQuery, sortOption,]);
-  
+  }, [currentPage, searchQuery, sortOption]);
+
   const editProduct = useCallback(
     (productId) => {
       navigate(`/admin/edit-product/${productId}`);
@@ -76,13 +72,11 @@ const ViewProducts = () => {
   };
 
   const handleSortChange = (event) => {
-    console.log("select")
-    const selectedOption = event.target.value; 
-    setSortOption(selectedOption);
-    console.log(sortOption)
+    const [field, order] = event.target.value.split("-");
+    setSortOption({ field, order });
     setCurrentPage(1);
-    fetchProducts()
   };
+
   return (
     <div className="container mx-auto px-4">
       <div className="bg-white shadow-md rounded my-6">
@@ -105,14 +99,14 @@ const ViewProducts = () => {
             className="border p-2 rounded w-full"
           />
           <select
-            value={sortOption}
+            value={`${sortOption.field}-${sortOption.order}`}
             onChange={handleSortChange}
             className="border p-2 rounded"
           >
-            <option value="nameAsc">Name (A to Z)</option>
-            <option value="nameDesc">Name (Z to A)</option>
-            <option value="priceAsc">Price (Low to High)</option>
-            <option value="priceDesc">Price (High to Low)</option>
+            <option value="name-asc">Name (A to Z)</option>
+            <option value="name-desc">Name (Z to A)</option>
+            <option value="price-asc">Price (Low to High)</option>
+            <option value="price-desc">Price (High to Low)</option>
           </select>
         </div>
 
