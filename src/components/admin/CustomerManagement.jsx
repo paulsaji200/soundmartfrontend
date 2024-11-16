@@ -4,58 +4,59 @@ import ReactPaginate from 'react-paginate';
 import api from '../../utils/axios';
 
 const CustomerManagement = () => {
-  const [customerData, setCustomerData] = useState(null);
-  const[change,setchange] = useState(0);
+  const [customerData, setCustomerData] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   const customersPerPage = 25;
   const offset = currentPage * customersPerPage;
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchCustomers = async () => {
+      setLoading(true);
       try {
         const response = await api.get("/admin/viewcustomer");
         setCustomerData(response.data.data);
+        setLoading(false);
       } catch (err) {
         setError('Error fetching customer data');
+        setLoading(false);
         console.error(err);
       }
     };
-
     fetchCustomers();
-  }, [change]);
+  }, []);
 
-  // Function to handle block/unblock status change
   const statusButton = async (customer) => {
-    setchange(change+1)
     try {
-      const response = await api.put(`/admin/userstatus/${customer._id}`);
-      console.log(response.data);
-      // Optionally, refresh the customer list here after status change
-      // e.g., fetchCustomers();
+      await api.put(`/admin/userstatus/${customer._id}`);
+      const updatedCustomers = await api.get("/admin/viewcustomer");
+      setCustomerData(updatedCustomers.data.data);
     } catch (error) {
       console.error('Error updating customer status:', error);
     }
   };
 
-  // Paginate customers
-  const paginatedCustomers = customerData ? customerData.slice(offset, offset + customersPerPage) : [];
-  const pageCount = customerData ? Math.ceil(customerData.length / customersPerPage) : 0;
-
   const handlePageClick = (event) => {
     setCurrentPage(event.selected);
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   if (error) {
     return <div>{error}</div>;
   }
 
+  const paginatedCustomers = customerData.slice(offset, offset + customersPerPage);
+  const pageCount = Math.ceil(customerData.length / customersPerPage);
+
   return (
     <div className="min-h-screen flex flex-col p-8">
       <div className="bg-white rounded p-4 flex-grow">
         <h2 className="text-2xl font-bold mb-4">Customers</h2>
-
-        {/* Table Container */}
         <div className="overflow-auto flex-grow">
           <table className="min-w-full bg-white">
             <thead>
@@ -69,45 +70,30 @@ const CustomerManagement = () => {
               </tr>
             </thead>
             <tbody>
-              {paginatedCustomers.length > 0 ? (
-                paginatedCustomers.map((customer, index) => (
-                  <tr key={customer._id}>
-                    <td className="py-2 px-4 border-b">{offset + index + 1}</td>
-                    <td className="py-2 px-4 border-b">{customer.name}</td>
-                    <td className="py-2 px-4 border-b">{customer.email}</td>
-                    <td className="py-2 px-4 border-b">{customer.phoneNumber}</td>
-                    <td className="py-2 px-4 border-b">
-                      <button>
-                        {customer.blocked ? <FcCancel /> : <FcApproval />}
-                      </button>
-                    </td>
-                    <td className="py-2 px-4 border-b flex justify-center space-x-2">
-                      <button className="bg-blue-500 text-white p-2 rounded w-20">
-                        Edit
-                      </button>
-                      <button
-                        onClick={() => statusButton(customer)}
-                        className={`text-white p-2 rounded w-20 ${
-                          customer.blocked ? 'bg-green-500' : 'bg-red-500'
-                        }`}
-                      >
-                        {customer.blocked ? 'Unblock' : 'Block'}
-                      </button>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="6" className="py-2 px-4 border-b text-center">
-                    No customers found
+              {paginatedCustomers.map((customer, index) => (
+                <tr key={customer._id}>
+                  <td className="py-2 px-4 border-b">{offset + index + 1}</td>
+                  <td className="py-2 px-4 border-b">{customer?.name || "N/A"}</td>
+                  <td className="py-2 px-4 border-b">{customer?.email || "N/A"}</td>
+                  <td className="py-2 px-4 border-b">{customer?.phoneNumber || "N/A"}</td>
+                  <td className="py-2 px-4 border-b">
+                    {customer.blocked ? <FcCancel /> : <FcApproval />}
+                  </td>
+                  <td className="py-2 px-4 border-b flex justify-center space-x-2">
+                    <button
+                      onClick={() => statusButton(customer)}
+                      className={`text-white p-2 rounded w-20 ${
+                        customer.blocked ? 'bg-green-500' : 'bg-red-500'
+                      }`}
+                    >
+                      {customer.blocked ? 'Unblock' : 'Block'}
+                    </button>
                   </td>
                 </tr>
-              )}
+              ))}
             </tbody>
           </table>
         </div>
-
-        {/* Pagination */}
         <div className="flex justify-center mt-4">
           <ReactPaginate
             previousLabel={"Previous"}

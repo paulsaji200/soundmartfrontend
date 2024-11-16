@@ -9,20 +9,26 @@ const ViewProducts = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalProducts, setTotalProducts] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
+  const [sortOption, setSortOption] = useState("nameAsc");
   const productsPerPage = 10;
   const navigate = useNavigate();
 
   const fetchProducts = useCallback(async () => {
     try {
       const response = await api.get("/admin/getproducts", {
-        params: { page: currentPage, limit: productsPerPage, search: searchQuery },
+        params: {
+          page: currentPage,
+          limit: productsPerPage,
+          search: searchQuery,
+          sort: sortOption,
+        },
       });
       setProducts(response?.data?.data);
       setTotalProducts(response?.data?.totalProducts || 0);
     } catch (error) {
       console.error("Error fetching products:", error);
     }
-  }, [currentPage, searchQuery]);
+  }, [currentPage, searchQuery, sortOption]);
 
   const editProduct = useCallback(
     (productId) => {
@@ -31,18 +37,21 @@ const ViewProducts = () => {
     [navigate]
   );
 
-  const handleDelete = useCallback(async (id, deleted) => {
-    try {
-      if (deleted) {
-        await api.patch(`/admin/undeleteproduct/${id}`);
-      } else {
-        await api.delete(`/admin/deleteproduct/${id}`);
+  const handleDelete = useCallback(
+    async (id, deleted) => {
+      try {
+        if (deleted) {
+          await api.patch(`/admin/undeleteproduct/${id}`);
+        } else {
+          await api.delete(`/admin/deleteproduct/${id}`);
+        }
+        fetchProducts();
+      } catch (error) {
+        console.error("Error deleting or undeleting product:", error);
       }
-      fetchProducts();
-    } catch (error) {
-      console.error("Error deleting or undeleting product:", error);
-    }
-  }, [fetchProducts]);
+    },
+    [fetchProducts]
+  );
 
   useEffect(() => {
     fetchProducts();
@@ -53,12 +62,16 @@ const ViewProducts = () => {
   const handlePageChange = (newPage) => {
     if (newPage > 0 && newPage <= totalPages) {
       setCurrentPage(newPage);
-      fetchProducts();
     }
   };
 
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
+    setCurrentPage(1);
+  };
+
+  const handleSortChange = (event) => {
+    setSortOption(event.target.value);
     setCurrentPage(1);
   };
 
@@ -75,14 +88,24 @@ const ViewProducts = () => {
           </button>
         </div>
 
-        <div className="py-4 px-6">
+        <div className="py-4 px-6 flex space-x-4">
           <input
             type="text"
             placeholder="Search products by name or category..."
             value={searchQuery}
             onChange={handleSearchChange}
-            className="border p-2 rounded w-full mb-4"
+            className="border p-2 rounded w-full"
           />
+          <select
+            value={sortOption}
+            onChange={handleSortChange}
+            className="border p-2 rounded"
+          >
+            <option value="nameAsc">Name (A to Z)</option>
+            <option value="nameDesc">Name (Z to A)</option>
+            <option value="priceAsc">Price (Low to High)</option>
+            <option value="priceDesc">Price (High to Low)</option>
+          </select>
         </div>
 
         <div className="p-6">
@@ -102,7 +125,9 @@ const ViewProducts = () => {
               {products.length > 0 ? (
                 products.map((product, index) => (
                   <tr key={product._id}>
-                    <td className="py-2 px-4 border-b">{(currentPage - 1) * productsPerPage + index + 1}</td>
+                    <td className="py-2 px-4 border-b">
+                      {(currentPage - 1) * productsPerPage + index + 1}
+                    </td>
                     <td className="py-2 px-4 border-b">{product.productName}</td>
                     <td className="py-2 px-4 border-b">{product.category}</td>
                     <td className="py-2 px-4 border-b">{product.salePrice}</td>
@@ -123,7 +148,11 @@ const ViewProducts = () => {
                       </button>
                       <button
                         onClick={() => handleDelete(product._id, product.deleted)}
-                        className={`p-2 rounded ${product.deleted ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`}
+                        className={`p-2 rounded ${
+                          product.deleted
+                            ? "bg-green-500 text-white"
+                            : "bg-red-500 text-white"
+                        }`}
                       >
                         {product.deleted ? <MdRestore /> : <MdDelete />}
                       </button>
@@ -147,14 +176,18 @@ const ViewProducts = () => {
             <div className="flex space-x-2">
               <button
                 onClick={() => handlePageChange(currentPage - 1)}
-                className={`bg-gray-300 text-gray-700 px-3 py-2 rounded hover:bg-gray-400 ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
+                className={`bg-gray-300 text-gray-700 px-3 py-2 rounded hover:bg-gray-400 ${
+                  currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""
+                }`}
                 disabled={currentPage === 1}
               >
                 {"<"}
               </button>
               <button
                 onClick={() => handlePageChange(currentPage + 1)}
-                className={`bg-gray-300 text-gray-700 px-3 py-2 rounded hover:bg-gray-400 ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : ''}`}
+                className={`bg-gray-300 text-gray-700 px-3 py-2 rounded hover:bg-gray-400 ${
+                  currentPage === totalPages ? "opacity-50 cursor-not-allowed" : ""
+                }`}
                 disabled={currentPage === totalPages}
               >
                 {">"}
@@ -168,4 +201,3 @@ const ViewProducts = () => {
 };
 
 export default ViewProducts;
-                          
