@@ -26,6 +26,7 @@ const ViewProducts = () => {
       });
       setProducts(response?.data?.data || []);
       setTotalProducts(response?.data?.totalProducts || 0);
+      console.log(response)
     } catch (error) {
       console.error("Error fetching products:", error);
     }
