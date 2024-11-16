@@ -33,7 +33,7 @@ const ViewProducts = () => {
     } catch (error) {
       console.error("Error fetching products:", error);
     }
-  }, [currentPage, searchQuery, sortOption]);
+  }, [currentPage, searchQuery, sortOption,]);
   
   const editProduct = useCallback(
     (productId) => {
@@ -81,6 +81,7 @@ const ViewProducts = () => {
     setSortOption(selectedOption);
     console.log(sortOption)
     setCurrentPage(1);
+    fetchProducts()
   };
   return (
     <div className="container mx-auto px-4">
