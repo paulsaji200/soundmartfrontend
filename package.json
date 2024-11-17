@@ -17,7 +17,6 @@
     "@emotion/styled": "^11.13.0",
     "@headlessui/react": "^2.1.9",
     "@heroicons/react": "^2.1.5",
-    "@mui/icons-material": "^6.1.7",
     "@mui/material": "^6.1.2",
     "@mui/x-date-pickers": "^7.19.0",
     "@react-oauth/google": "^0.12.1",

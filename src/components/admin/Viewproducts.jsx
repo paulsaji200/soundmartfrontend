@@ -1,8 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { FaRegEdit } from "react-icons/fa";
 import { MdDelete, MdRestore } from "react-icons/md";
-import { ArrowBack, ArrowForward } from "@mui/icons-material";
-import { IconButton } from "@mui/material";
+import { BsArrowLeft, BsArrowRight } from "react-icons/bs"; // Replacing Material-UI icons
 import api from "../../utils/axios";
 import { useNavigate } from "react-router-dom";
 
@@ -178,22 +177,20 @@ const ViewProducts = () => {
               Page {currentPage} of {totalPages}
             </span>
             <div className="flex space-x-2">
-              <IconButton
+              <button
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
-                color="primary"
-                size="large"
+                className="text-gray-700 disabled:opacity-50"
               >
-                <ArrowBack />
-              </IconButton>
-              <IconButton
+                <BsArrowLeft />
+              </button>
+              <button
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
-                color="primary"
-                size="large"
+                className="text-gray-700 disabled:opacity-50"
               >
-                <ArrowForward />
-              </IconButton>
+                <BsArrowRight />
+              </button>
             </div>
           </div>
         </div>
