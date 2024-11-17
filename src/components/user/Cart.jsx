@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import Nav from '../global/Nav';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Footer from '../global/Footer';
 
 const ShoppingCart = () => {
   const navigate = useNavigate();
@@ -104,6 +105,7 @@ const ShoppingCart = () => {
   }
 
   return (
+    <>
     <div className="flex flex-col md:flex-row gap-8 p-24 max-w-6xl mx-auto">
       <Nav />
       <ToastContainer />
@@ -184,6 +186,10 @@ const ShoppingCart = () => {
         </div>
       </div>
     </div>
+    <div>
+      <Footer/>
+    </div>
+    </>
   );
 };
 
