@@ -78,6 +78,7 @@ const WishlistPage = () => {
           );
         })}
       </div>
+      <footer/>
     </div>
   );
 };
