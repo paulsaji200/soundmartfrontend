@@ -32,6 +32,7 @@ const WishlistPage = () => {
   }
 
   return (
+    <>
     <div className="flex flex-col md:flex-row gap-8 p-24 max-w-6xl mx-auto">
       <Nav />
       <div className="flex-grow">
@@ -80,10 +81,11 @@ const WishlistPage = () => {
         })}
       </div>
 
-      <div>
-        <Footer/>
-        </div> 
     </div>
+    <div>
+      <Footer/>
+    </div>
+    </>
 
   );
 };
