@@ -138,7 +138,7 @@ const UserOrders = () => {
         <div key={order._id} className="border p-4 mb-4 rounded">
           <div className="flex justify-between mb-2">
             <div>
-              <p>Order ID: {order._id}</p>
+              <p>Order ID: {order.order_ID}</p>
               <p>Order Date: {new Date(order.createdAt).toLocaleDateString()}</p>
               <p>
                 Ship To: {`${order.shippingAddress.street}, ${order.shippingAddress.city}, ${order.shippingAddress.postalCode}, ${order.shippingAddress.country}`}

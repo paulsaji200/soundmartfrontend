@@ -17,11 +17,7 @@ const Profilesidebar = () => {
   return (
     <div className=" p-6 bg-gray-800 text-gray-200 shadow-lg min-h-screen">
       <div className="text-center mb-6">
-        <img 
-          src="https://via.placeholder.com/100" 
-          alt="User Avatar" 
-          className="rounded-full mx-auto mb-2"
-        />
+        
         <h2 className="text-xl font-semibold text-green-400">Hello User</h2>
       </div>
 

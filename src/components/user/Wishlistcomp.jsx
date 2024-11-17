@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import  { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Trash2, ShoppingCart } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
