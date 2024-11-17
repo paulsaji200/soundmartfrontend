@@ -10,7 +10,7 @@ const App = () => {
       <>
         <Nav />
         <div className="pt-20">
-          {/* Adding padding to avoid content overlap with the fixed Nav */}
+         
           <Outlet />
         </div>
         <Footer/>

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Nav from '../global/Nav';
 import { deleteFromWishlistAsync, getWishlistAsync } from '../../redux/user/wishlist';
 import { addToCartAsync } from '../../redux/user/Cart';
+import Footer from '../global/Footer';
 
 const WishlistPage = () => {
   const navigate = useNavigate();
@@ -78,7 +79,7 @@ const WishlistPage = () => {
           );
         })}
       </div>
-      <footer/>
+      <Footer/>
     </div>
   );
 };
