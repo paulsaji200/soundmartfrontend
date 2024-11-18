@@ -40,12 +40,12 @@ const OrderManagement = () => {
   };
 
   useEffect(() => {
-    fetchOrders(currentPage, searchQuery);
-  }, [currentPage, searchQuery]);
+    fetchOrders(currentPage);
+  }, [currentPage]);
 
   const handleSearch = (e) => {
     e.preventDefault();
-    setCurrentPage(1); // Reset to first page when a new search is performed
+    setCurrentPage(1); 
     fetchOrders(1, searchQuery);
   };
 
