@@ -23,6 +23,7 @@ const ViewProducts = () => {
           search: searchQuery,
           sort: sortOption,
         },
+        withCredentials:true
       });
       setProducts(response?.data?.data || []);
       setTotalProducts(response?.data?.totalProducts || 0);
