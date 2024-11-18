@@ -114,6 +114,7 @@ const Logincomp = () => {
       try {
         const response = await api.get(`user/google?code=${tokenResponse.code}`, { withCredentials: true });
         console.log("Google login successful:", response.data);
+        navigate("/")
       } catch (error) {
         console.log("Google login failed:", error);
       }
