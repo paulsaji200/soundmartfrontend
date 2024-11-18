@@ -184,12 +184,55 @@ const OrderManagement = () => {
                   >
                     <FaEye className="text-xl" />
                   </button>
+                  <button
+                        onClick={() => openEditModal(order)}
+                        className="text-green-600 hover:text-green-900"
+                      >
+                        <FaEdit className="text-xl" />
+                      </button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+
+
+      {isModalOpen && (
+  <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex justify-center items-center">
+    <div className="bg-white p-6 rounded-lg w-1/3">
+      <h3 className="text-lg font-bold mb-4">Edit Order Status</h3>
+     
+      <div className="mb-4">
+        <label className="block text-sm font-medium text-gray-700">Payment Status</label>
+        <select
+          value={newPaymentStatus}
+          onChange={(e) => setNewPaymentStatus(e.target.value)}
+          className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+        >
+          <option value="Pending">Pending</option>
+          <option value="Paid">Paid</option>
+          <option value="Failed">Failed</option>
+        </select>
+      </div>
+      <div className="flex justify-end">
+        <button
+          onClick={() => setIsModalOpen(false)}
+          className="bg-gray-200 text-gray-700 px-4 py-2 rounded mr-2"
+        >
+          Cancel
+        </button>
+        <button
+          onClick={handleEditOrder}
+          className="bg-blue-600 text-white px-4 py-2 rounded"
+        >
+          Save Changes
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
 
       {/* Pagination */}
       <div className="mt-4 flex justify-end space-x-2">
