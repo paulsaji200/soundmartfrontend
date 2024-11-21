@@ -26,7 +26,9 @@ const Productcomp = () => {
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
+    window.scrollTo({ top: 0, behavior: 'smooth' }); 
   };
+  
 
   const handleAddToCart = (event, product) => {
     event.stopPropagation();
