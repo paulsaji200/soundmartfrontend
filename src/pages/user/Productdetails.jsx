@@ -136,11 +136,11 @@ const ProductDetailPage = () => {
 
           <div className="text-lg lg:text-2xl font-bold text-gray-900 mb-2">
             <span className="line-through text-gray-600">
-              ${product.productPrice}
+              ₹{product.productPrice}
             </span>
           </div>
           <div className="text-lg lg:text-2xl font-bold text-gray-900 mb-2">
-            ${product.salePrice}
+            ₹{product.salePrice}
           </div>
           {product.discount && (
             <div className="text-green-600 font-medium mb-4">
@@ -154,7 +154,7 @@ const ProductDetailPage = () => {
           <div className="text-sm text-gray-600 mb-4">
             <p>
               <strong>Free Shipping:</strong> Eligible for free shipping on
-              orders over $50
+              orders over ₹500
             </p>
             <p>
               <strong>Delivery Options:</strong> Standard (3-5 days), Express

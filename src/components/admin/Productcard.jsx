@@ -98,9 +98,9 @@ const Productcomp = () => {
                 <div className="font-bold text-lg mb-1 truncate">{productItem.productName || 'Product Name'}</div>
                 <p className="text-gray-700 text-sm line-clamp-2">{productItem.description || 'Product description.'}</p>
                 <div className="mt-2 flex items-center">
-                  <span className="text-gray-900 font-bold text-base">${productItem.salePrice || '0.00'}</span>
+                  <span className="text-gray-900 font-bold text-base">₹{productItem.salePrice || '0.00'}</span>
                   {productItem.productPrice && (
-                    <span className="text-red-500 text-xs ml-2 line-through">${productItem.productPrice}</span>
+                    <span className="text-red-500 text-xs ml-2 line-through">₹{productItem.productPrice}</span>
                   )}
                 </div>
                 <div className="mt-2 flex items-center">
@@ -145,8 +145,8 @@ const Productcomp = () => {
         )}
       </div>
 
-      {/* Pagination Controls */}
-      <div className="flex items-center justify-center mt-4">
+      
+      <div className="flex items-center justify-center mt-8 mb-4">
         <button
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}
