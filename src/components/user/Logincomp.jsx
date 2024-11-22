@@ -203,7 +203,7 @@ const Logincomp = () => {
             </button>
             <div className="flex justify-between items-center mt-4">
               <Link
-                to="/forgot-password"
+                to="/forgetpassword"
                 className="text-sm text-blue-500 hover:underline"
               >
                 Forgot Password?

@@ -153,27 +153,7 @@ const SidebarFilter = () => {
         ))}
       </div>
 
-      {/* Ratings Filter */}
-      <div className="mb-4">
-        <h3 className="font-semibold text-lg mb-2">Average Rating</h3>
-        {ratings.map((rating) => (
-          <div key={rating} className="flex items-center mb-1">
-            <input
-              type="radio"
-              id={`rating-${rating}`}
-              checked={filters.rating === rating}
-              onChange={() => handleSingleOptionChange('rating', rating)}
-              className="mr-2"
-            />
-            <label htmlFor={`rating-${rating}`} className="flex items-center">
-              {Array.from({ length: rating }, (_, index) => (
-                <span key={index} className="text-yellow-400">★</span>
-              ))}
-              & up
-            </label>
-          </div>
-        ))}
-      </div>
+      
 
       {/* Sorting Options */}
       <div className="mb-4">
