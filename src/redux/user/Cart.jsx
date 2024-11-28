@@ -95,12 +95,27 @@ const cartSlice = createSlice({
         state.status = 'failed';
         state.error = action.payload;
       })
-      // Add to Cart
+   
       .addCase(addToCartAsync.fulfilled, (state, action) => {
-       
-        state.cart.products.push(action.payload);
-        state.cartCount = state.cart.products.reduce((acc, item) => acc + item.quantity, 0); // Update cart count
-      })
+        const existingProduct = state.cart.products.find(
+            (product) => product.productId._id === action.payload.productId._id
+        );
+    
+        if (existingProduct) {
+        
+            existingProduct.quantity += action.payload.quantity;
+        } else {
+          
+            state.cart.products.push(action.payload);
+        }
+    
+        
+        state.cartCount = state.cart.products.reduce(
+            (acc, item) => acc + item.quantity,
+            0
+        );
+    })
+    
       .addCase(addToCartAsync.rejected, (state, action) => {
         console.log("rejjjjjj")
         state.error = action.payload;

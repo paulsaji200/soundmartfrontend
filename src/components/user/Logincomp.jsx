@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useGoogleLogin } from "@react-oauth/google"; // Import Google login hook
-import { FcGoogle } from "react-icons/fc"; // Import Google icon
-import Cookies from "js-cookie"; // Import js-cookie to access cookies
+import { useGoogleLogin } from "@react-oauth/google";
+import { FcGoogle } from "react-icons/fc"; 
+import Cookies from "js-cookie"; 
 import api from "../../utils/axios";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../redux/user/auth";
@@ -66,11 +66,11 @@ const Logincomp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
   
-    // Validate the form before submitting
+   
     if (!validateForm()) return;
   
     try {
-      // Make the API call to the login endpoint
+     
       const response = await api.post("/user/login", loginData, {
         withCredentials: true, 
       });
@@ -79,13 +79,13 @@ const Logincomp = () => {
       if (response.status === 200) {
         setLoginStatus({ success: true, message: "Login successful!" });
         
-        // Get the user data from the response
+        
         const user = response.data.user;
   
-        // Dispatch the user data to the Redux store
+       
         dispatch(setUser(user));
   
-        // Store the token in cookies for future requests
+        
         Cookies.set("token", response.data.token);
                dispatch(getCartAsync())
         
@@ -93,14 +93,14 @@ const Logincomp = () => {
           navigate("/");
         }, 2000);
       } else {
-        // Handle login failure
+       
         setLoginStatus({
           success: false,
           message: "Login failed. Please try again.",
         });
       }
     } catch (error) {
-      // Handle any errors that occurred during the API call
+      
       setLoginStatus({
         success: false,
         message:
