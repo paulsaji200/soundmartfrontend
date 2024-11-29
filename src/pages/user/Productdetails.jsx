@@ -135,18 +135,25 @@ const ProductDetailPage = () => {
           </div>
 
           <div className="text-lg lg:text-2xl font-bold text-gray-900 mb-2">
-            <span className="line-through text-gray-600">
-              ₹{product.productPrice}
-            </span>
-          </div>
-          <div className="text-lg lg:text-2xl font-bold text-gray-900 mb-2">
-            ₹{product.salePrice}
-          </div>
-          {product.discount && (
-            <div className="text-green-600 font-medium mb-4">
-              Discount: {product.discount}
-            </div>
-          )}
+  
+  {product.salePrice && product.productPrice && product.salePrice < product.productPrice ? (
+    <span className="line-through text-gray-600">
+      ₹{product.productPrice}
+    </span>
+  ) : (
+    <span className="text-gray-600">₹{product.productPrice}</span>
+  )}
+</div>
+<div className="text-lg lg:text-2xl font-bold text-gray-900 mb-2">
+  ₹{product.salePrice || product.productPrice}
+</div>
+{/* Show discount if it's provided */}
+{product.discount && product.salePrice && (
+  <div className="text-green-600 font-medium mb-4">
+    Discount: {product.discount}
+  </div>
+)}
+
           <div className="text-green-500 font-semibold mb-4">
             {product.quantity > 0 ? "In Stock" : "Out of Stock"}
           </div>

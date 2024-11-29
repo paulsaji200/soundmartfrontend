@@ -97,14 +97,18 @@ const Productcomp = () => {
 
               {/* Product Details */}
               <div className="flex-grow px-2 py-1">
-                <div className="font-bold text-lg mb-1 truncate">{productItem.productName || 'Product Name'}</div>
-                <p className="text-gray-700 text-sm line-clamp-2">{productItem.description || 'Product description.'}</p>
-                <div className="mt-2 flex items-center">
-                  <span className="text-gray-900 font-bold text-base">₹{productItem.salePrice || '0.00'}</span>
-                  {productItem.productPrice && (
-                    <span className="text-red-500 text-xs ml-2 line-through">₹{productItem.productPrice}</span>
-                  )}
-                </div>
+  <div className="font-bold text-lg mb-1 truncate">{productItem.productName || 'Product Name'}</div>
+  <p className="text-gray-700 text-sm line-clamp-2">{productItem.description || 'Product description.'}</p>
+  <div className="mt-2 flex items-center">
+    <span className="text-gray-900 font-bold text-base">₹{productItem.salePrice || '0.00'}</span>
+    
+   
+    {productItem.salePrice && productItem.productPrice && productItem.salePrice < productItem.productPrice && (
+      <span className="text-red-500 text-xs ml-2 line-through">₹{productItem.productPrice}</span>
+    )}
+  </div>
+
+
                 <div className="mt-2 flex items-center">
                   <span
                     className={`inline-block ${
