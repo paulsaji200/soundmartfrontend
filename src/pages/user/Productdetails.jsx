@@ -135,19 +135,19 @@ const ProductDetailPage = () => {
           </div>
 
           <div className="text-lg lg:text-2xl font-bold text-gray-900 mb-2">
-  
-  {product.salePrice && product.productPrice && product.salePrice < product.productPrice ? (
+          <div className="text-lg lg:text-2xl font-bold text-gray-900 mb-2">
+  {/* Show original price with strikethrough only if there's a salePrice and it's lower than productPrice */}
+  {product.salePrice && product.salePrice < product.productPrice ? (
     <span className="line-through text-gray-600">
       ₹{product.productPrice}
     </span>
-  ) : (
-    <span className="text-gray-600">₹{product.productPrice}</span>
-  )}
+  ) : null}
 </div>
 <div className="text-lg lg:text-2xl font-bold text-gray-900 mb-2">
+  {/* Display the sale price if available, otherwise the original price */}
   ₹{product.salePrice || product.productPrice}
 </div>
-{/* Show discount if it's provided */}
+{/* Show discount only if salePrice is available and a discount is provided */}
 {product.discount && product.salePrice && (
   <div className="text-green-600 font-medium mb-4">
     Discount: {product.discount}
