@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
-    <!-- Favicon -->
     <link rel="icon" href="https://res.cloudinary.com/dasqrolmh/image/upload/v1732895734/project_1_logo_afh5kh.png" type="image/png" />
     
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
@@ -12,33 +11,40 @@
     <title>Soundmart</title>
   
     <style>
-      .logo-text {
+      body {
         font-family: Arial, sans-serif;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+      }
+      
+      .logo-text {
         font-style: italic;
         font-weight: bold;
         font-size: 1.2rem;
-        text-align: center;  /* Center the text */
+        margin-top: 20px;
       }
       
-      /* Style for the logo image */
       .logo {
-        width: 150px;  /* Adjust the width of the logo */
-        height: auto;  /* Maintain the aspect ratio */
-        display: block;  /* Ensure the logo is displayed as a block element */
-        margin: 0 auto;  /* Center the image horizontally */
+        width: 150px;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+      }
+      
+      /* CSS to hide logo and text on pages without the logo */
+      .no-logo .logo,
+      .no-logo .logo-text {
+        display: none;
       }
     </style>
   </head>
-  <body>
+  <body class="no-logo"> <!-- Add the class `no-logo` for pages where the logo should be hidden -->
     <div id="root"></div>
    
-    <!-- Displaying the logo image -->
     <img src="https://res.cloudinary.com/dasqrolmh/image/upload/v1732895734/project_1_logo_afh5kh.png" alt="Soundmart Logo" class="logo" />
-    
-    <!-- Displaying the Soundmart text -->
     <div class="logo-text">Soundmart</div>
     
-    <!-- Linking the main JS file -->
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
