@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearCartAsync, getCartAsync } from '../../redux/user/Cart';
+import { deleteAddressAsync, fetchAddressesAsync } from '../../redux/user/address';
 import api from '../../utils/axios';
 import { useNavigate } from 'react-router-dom';
 import Nav from '../global/Nav';
@@ -10,7 +11,7 @@ const CheckoutPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const cart = useSelector((state) => state.cart.cart);
-  const [addresses, setAddresses] = useState([]);
+
   const [selectedPayment, setSelectedPayment] = useState('');
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [subtotal, setSubtotal] = useState(0);
@@ -24,26 +25,20 @@ const CheckoutPage = () => {
   const[walletamount,setwalletamount] = useState(0);
 
   useEffect(() => {
-    const fetchCartAndAddresses = async () => {
-      dispatch(getCartAsync()); // Fetch the cart
+  const fetchCartAndAddresses = async () => {
+    dispatch(getCartAsync());
+    dispatch(fetchAddressesAsync());
+    try {
+      const walletresponse = await api.get('/user/getwallet', { withCredentials: true });
+      setwalletamount(walletresponse.data.balance);
+    } catch (error) {
+      console.error('Failed to fetch wallet', error);
+    }
+  };
 
-      try {
-        const response = await api.get('/user/getaddress', { withCredentials: true });
-        const walletresponse = await api.get('/user/getwallet', { withCredentials: true });
-        setwalletamount(walletresponse.data.balance)
-        setAddresses(response.data);
-        if (response.data.length > 0) {
-          setSelectedAddress(response.data[0]);
-        }
-      } 
-      catch (error) {
-        console.error('Failed to fetch addresses', error);
-      }
-    };
-
-    fetchCartAndAddresses();
-  }, [dispatch]);
-
+  fetchCartAndAddresses();
+}, [dispatch]);
+const addresses = useSelector((state) => state.address.addresses);
   useEffect(() => {
     const fetchCoupons = async () => {
       if (!cart || !cart.totalPrice) return; 
